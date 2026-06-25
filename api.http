@@ -1,0 +1,41 @@
+### Obtener todos los partidos (Considera usar un límite si la DB tiene muchos)
+GET http://localhost:3000/partidos
+
+### Obtener un partido por ID (Reemplazar con un ID válido de tu base de datos)
+GET http://localhost:3000/partidos/660c12345678901234567890
+
+### Crear un nuevo partido
+POST http://localhost:3000/partidos
+Content-Type: application/json
+
+{
+  "date": "2024-06-20",
+  "home_team": "Argentina",
+  "away_team": "Canada",
+  "home_score": 2,
+  "away_score": 0,
+  "tournament": "Copa América",
+  "city": "Atlanta",
+  "country": "United States",
+  "neutral": true
+}
+
+### Actualizar un partido (Reemplazar ID)
+PUT http://localhost:3000/partidos/660c12345678901234567890
+Content-Type: application/json
+
+{
+  "home_score": 3
+}
+
+### Eliminar un partido (Reemplazar ID)
+DELETE http://localhost:3000/partidos/660c12345678901234567890
+
+### Obtener partidos por torneo
+GET http://localhost:3000/partidos/torneo/Copa América
+
+### Obtener partidos por equipo (local o visitante)
+GET http://localhost:3000/partidos/equipo/Argentina
+
+### Obtener partidos jugados en un rango de fechas (ej. todo 2021)
+GET http://localhost:3000/partidos/fecha/2021-01-01-2021-12-31

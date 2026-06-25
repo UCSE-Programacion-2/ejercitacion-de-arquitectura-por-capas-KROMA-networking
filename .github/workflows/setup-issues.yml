@@ -1,0 +1,44 @@
+name: Setup Assignment Issues
+on:
+  push:
+    branches:
+      - main
+      - master
+  repository_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: setup-issues-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  create_issues:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'push' || github.repository != github.event.repository.template_repository.full_name
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Crear Issue 1 - Estructura de Proyecto
+        uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: .github/issues/01-estructura.md
+
+      - name: Crear Issue 2 - CRUD Básico
+        uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: .github/issues/02-crud.md
+
+      - name: Crear Issue 3 - Búsquedas Especializadas
+        uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: .github/issues/03-busquedas.md

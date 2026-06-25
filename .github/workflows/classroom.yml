@@ -1,0 +1,38 @@
+name: GitHub Classroom Workflow
+
+on:
+  - push
+  - workflow_dispatch
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  build:
+    name: Autograding
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Validar Arquitectura por Capas
+        id: validar-arquitectura
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Validar Arquitectura por Capas
+          setup-command: ''
+          command: bash scripts/classroom-check.sh arquitectura
+          input: ''
+          expected-output: 'CORRECTO'
+          comparison-method: exact
+          timeout: 10
+          max-score: 100
+
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          VALIDAR-ARQUITECTURA_RESULTS: "${{steps.validar-arquitectura.outputs.result}}"
+        with:
+          runners: validar-arquitectura
